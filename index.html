@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>德州扑克胜率/牌力建模工具</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="table">
+      <header class="topbar">
+        <div>
+          <h1>德州扑克胜率/牌力建模</h1>
+          <p>输入手牌和公共牌，使用蒙特卡洛模拟估算胜率、平局率、牌力与改进空间。</p>
+        </div>
+        <button id="dealRandom" class="primary" type="button">随机局面</button>
+      </header>
+
+      <section class="board-area">
+        <div>
+          <h2>我的手牌</h2>
+          <div id="heroCards" class="card-row two"></div>
+        </div>
+        <div>
+          <h2>公共牌</h2>
+          <div id="boardCards" class="card-row five"></div>
+        </div>
+      </section>
+
+      <section class="controls">
+        <label>对手数
+          <input id="opponents" type="number" min="1" max="8" value="3">
+        </label>
+        <label>模拟次数
+          <input id="iterations" type="number" min="500" max="50000" step="500" value="8000">
+        </label>
+        <button id="runSim" class="primary" type="button">计算胜率</button>
+        <button id="clearAll" type="button">清空</button>
+      </section>
+
+      <section class="deck-wrap">
+        <div class="deck-head">
+          <h2>牌面选择</h2>
+          <div class="mode">
+            <button id="modeHero" class="active" type="button">填手牌</button>
+            <button id="modeBoard" type="button">填公共牌</button>
+          </div>
+        </div>
+        <div id="deck" class="deck"></div>
+      </section>
+    </section>
+
+    <aside class="insight">
+      <section class="result">
+        <h2>胜率概览</h2>
+        <div class="big-number"><span id="equity">-</span><small>胜率</small></div>
+        <div class="bars">
+          <div><span>胜</span><b id="winBar"></b><em id="winText">-</em></div>
+          <div><span>平</span><b id="tieBar"></b><em id="tieText">-</em></div>
+          <div><span>负</span><b id="loseBar"></b><em id="loseText">-</em></div>
+        </div>
+      </section>
+
+      <section class="strength">
+        <h2>当前牌力</h2>
+        <div id="madeHand" class="made"></div>
+        <div id="outs" class="outs"></div>
+      </section>
+
+      <section class="model">
+        <h2>Kaggle CSV 建模</h2>
+        <p>已接入 Kaggle 数据集聚合模型，也可重新导入 CSV 更新起手牌桶与阶段牌型分布。</p>
+        <input id="csvFile" type="file" accept=".csv,.txt">
+        <div id="modelStatus" class="status">未导入数据集。实时胜率使用本地模拟。</div>
+        <div class="metrics">
+          <div><strong id="rowCount">0</strong><span>样本</span></div>
+          <div><strong id="bucketCount">0</strong><span>桶</span></div>
+          <div><strong id="bucketWin">-</strong><span>当前桶主牌型</span></div>
+        </div>
+      </section>
+
+      <section class="distribution">
+        <h2>模拟牌型分布</h2>
+        <div id="dist"></div>
+      </section>
+    </aside>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
