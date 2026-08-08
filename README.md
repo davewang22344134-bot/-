@@ -1,5 +1,7 @@
 # 德州扑克胜率/牌力建模工具
 
+输入手牌和公共牌，使用蒙特卡洛模拟估算胜率、平局率、牌力与改进空间。
+
 启动方式：
 
 ```powershell
@@ -15,6 +17,7 @@ python -m http.server 8766 --bind 127.0.0.1 --directory hold-em-equity-tool
 - 使用蒙特卡洛随机补全未知公共牌和对手手牌，输出胜/平/负和 equity。
 - 在已有至少 5 张牌时计算最佳 5 张牌型。
 - 翻牌/转牌阶段显示一张牌改进 outs。
+- 显示模拟牌型分布。
 - 已内置从 `joogollucci/poker-hands-dataset` 聚合出的 `kaggle-model.json`，共 1,000,000 行、507 个起手牌阶段桶。
 - 支持重新导入 Kaggle CSV，更新起手牌阶段牌型分布。
 
