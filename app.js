@@ -125,7 +125,7 @@ function simulate() {
   }
   const opponents = Math.max(1, Math.min(8, Number($("opponents").value) || 1));
   const iterations = Math.max(500, Math.min(50000, Number($("iterations").value) || 8000));
-  let wins = 0, ties = 0, loses = 0;
+  let wins = 0, ties = 0, loses = 0, equity = 0;
   const dist = Array(handNames.length).fill(0);
   const needBoard = 5 - state.board.length;
   const needed = needBoard + opponents * 2;
@@ -152,11 +152,17 @@ function simulate() {
       }
     }
     const cmpHero = compareEval(heroEval, bestOpp);
-    if (cmpHero > 0) wins++;
-    else if (cmpHero === 0) ties += 1 / (tiedOpps + 1);
-    else loses++;
+    if (cmpHero > 0) {
+      wins++;
+      equity++;
+    } else if (cmpHero === 0) {
+      ties++;
+      equity += 1 / (tiedOpps + 1);
+    } else {
+      loses++;
+    }
   }
-  renderResults({ wins, ties, loses, iterations, dist });
+  renderResults({ wins, ties, loses, equity, iterations, dist });
 }
 
 function handBucket() {
@@ -174,7 +180,8 @@ function renderResults(result) {
   const winRate = result.wins / result.iterations;
   const tieRate = result.ties / result.iterations;
   const loseRate = result.loses / result.iterations;
-  $("equity").textContent = pct(winRate + tieRate);
+  const equityRate = result.equity / result.iterations;
+  $("equity").textContent = pct(equityRate);
   $("winBar").style.width = pct(winRate);
   $("tieBar").style.width = pct(tieRate);
   $("loseBar").style.width = pct(loseRate);
